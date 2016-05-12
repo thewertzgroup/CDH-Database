@@ -1,0 +1,17 @@
+mysql> create database <database> DEFAULT CHARACTER SET utf8;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> grant all on <database>.* TO '<user>'@'%' IDENTIFIED BY '<password>';
+Query OK, 0 rows affected (0.00 sec)
+
+
+Role	                              Database	User	  Password
+Activity Monitor	                  amon	    amon	  amon_password
+Reports Manager	                    rman	    rman	  rman_password
+Hive Metastore Server	              metastore	hive	  hive_password
+Sentry Server	                      sentry	  sentry	sentry_password
+Cloudera Navigator Audit Server	    nav	      nav	    nav_password
+Cloudera Navigator Metadata Server	navms	    navms	  navms_password
+
+Hue Server                          hue       hue     hue_password
+Oozie                               oozie     oozie   oozie_password
