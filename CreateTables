@@ -20,3 +20,17 @@ Cloudera Navigator Metadata Server  navms     navms   navms_password
 
 Hue Server                          hue       hue     hue_password
 Oozie                               oozie     oozie   oozie_password
+
+
+CREATE DATABASE amon DEFAULT CHARACTER SET utf8;
+CREATE DATABASE rman DEFAULT CHARACTER SET utf8;
+CREATE DATABASE metastore DEFAULT CHARACTER SET utf8;
+CREATE DATABASE sentry DEFAULT CHARACTER SET utf8;
+CREATE DATABASE nav DEFAULT CHARACTER SET utf8;
+CREATE DATABASE navms DEFAULT CHARACTER SET utf8;
+CREATE DATABASE oozie DEFAULT CHARACTER SET utf8;
+CREATE DATABASE hue DEFAULT CHARACTER SET utf8;
+CREATE DATABASE sqoop DEFAULT CHARACTER SET utf8;
+
+#Latest release would not work if the DB existed?  So we dropped the DB but left the user and all was good
+CREATE DATABASE scm DEFAULT CHARACTER SET utf8;
