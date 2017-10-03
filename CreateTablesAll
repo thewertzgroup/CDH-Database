@@ -1,0 +1,46 @@
+##RHEL 
+# create data base for all our users
+mysql -u root -ppassword
+CREATE DATABASE rman DEFAULT CHARACTER SET utf8;
+CREATE DATABASE metastore DEFAULT CHARACTER SET utf8;
+CREATE DATABASE sentry DEFAULT CHARACTER SET utf8;
+CREATE DATABASE nav DEFAULT CHARACTER SET utf8;
+CREATE DATABASE navms DEFAULT CHARACTER SET utf8;
+CREATE DATABASE oozie DEFAULT CHARACTER SET utf8;
+CREATE DATABASE hue DEFAULT CHARACTER SET utf8;
+CREATE DATABASE sqoop DEFAULT CHARACTER SET utf8;
+#Latest release would not work if the DB existed?  So we dropped the DB but left the user and all was good
+CREATE DATABASE scm DEFAULT CHARACTER SET utf8;
+
+##CREATE USER * IDENTIFIED BY '';  this is old school to make sure users are created a short cut is below
+##NOTE 5.7+ versions enforce password complexity Upper/Lower/Number/SpecialChar
+
+GRANT ALL ON rman.* TO 'rman'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON metastore.* TO 'hive'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON sentry.* TO 'sentry'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON nav.* TO 'nav'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON navms.* TO 'navms'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'Cloudera2017!'; 
+GRANT ALL ON hue.* TO 'hue'@'%' IDENTIFIED BY 'Cloudera2017!'; 
+GRANT ALL ON sqoop.* TO 'sqoop'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT ALL ON scm.* TO 'scm'@'%' IDENTIFIED BY 'Cloudera2017!';
+
+Add the MySQL JDBC Driver JAR to Oozie
+Copy or symbolically link the MySQL JDBC driver JAR into one of the following directories:
+For installations that use packages: /var/lib/oozie/
+For installations that use parcels: /opt/cloudera/parcels/CDH/lib/oozie/lib/
+directory.
+
+##NOTE:  If mysql is installed on host other than where CM is installed ensure root can connect since the default is root@localhost
+/usr/share/cmf/schema/scm_prepare_database.sh mysql --user root --password --host grizmsql.vpc.cloudera.com --scm-host grizcm.vpc.cloudera.com scm scm scm
+SHOW GRANTS;
+SHOW GRANTS FOR 'root'@'%';
+#if this returns nothing than you have to add root@*.*
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'Cloudera2017!';
+GRANT USAGE ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+# Run the prepare database script NOTE: after you have installed cloudera manager agent and daemons LOCALHOST 
+/usr/share/cmf/schema/scm_prepare_database.sh
+scm_prepare_database.sh database-type [options] database-name username password
+# NOTE:  the SCM db is the most important
+sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql -uroot -ppassword scm scm scm
